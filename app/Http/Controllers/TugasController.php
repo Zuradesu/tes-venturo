@@ -43,20 +43,40 @@ class TugasController extends Controller
  
     public function DataMakanan()
     {
-        $response = Http::get('http://tes-web.landa.id/intermediate/menu');
+        // $response = Http::get('http://tes-web.landa.id/intermediate/menu');
 
-        if ($response->successful()) {
-            $datamenu = $response->json();
-            $datamakanan = [];
 
-            // Filter data untuk hanya mendapatkan kategori makanan
-            foreach ($datamenu as $item) {
-                if ($item['kategori'] === 'makanan') {
-                    $datamakanan[] = $item;
-                }
-            }
+        $curl = curl_init();
 
-            return view('tugas', ['datamakanan' => $datamakanan]);
+        curl_setopt_array($curl, array(
+        CURLOPT_URL => 'http://tes-web.landa.id/intermediate/menu',
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+        ));
+
+        $response = json_decode(curl_exec($curl)) ;
+
+        curl_close($curl);
+        // echo $response;
+
+
+        if ($response) {
+            // $datamenu = $response->json();
+            // $datamakanan = [];
+
+            // // Filter data untuk hanya mendapatkan kategori makanan
+            // foreach ($datamenu as $item) {
+            //     if ($item['kategori'] === 'makanan') {
+            //         $datamakanan[] = $item;
+            //     }
+            // }
+
+            return view('tugas', ['datamakanan' => $response]);
         } else {
             abort(500, 'Gagal mengambil data dari API.');
         }
@@ -65,46 +85,62 @@ class TugasController extends Controller
 
 
 
-    // public function transaksi1()
-    // {
-    //     $response = Http::get('https://tes-web.landa.id/intermediate/transaksi?tahun=2021');
+    public function transaksi($tahun)
+{
+    $curl = curl_init();
 
-    //     if ($response->successful()) {
-    //         $datatr = $response->json();
-    //         return view('tugas', ['data' => $datatr]);
-    //     } else {
-    //         abort(500, 'Gagal mengambil data dari API.');
-    //     }
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => 'http://tes-web.landa.id/intermediate/menu',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => '',
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 0,
+    CURLOPT_FOLLOWLOCATION => true,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => 'GET',
+    ));
+
+    $response = json_decode(curl_exec($curl)) ;
+
+    curl_close($curl);
+    // echo $response;
+
+
+    if ($response) {
+        $datamakanan = $response;
+    } else {
+        $datamakanan = [];
+    }
+
+
+
+    $curl = curl_init();
+
+    curl_setopt_array($curl, array(
+        CURLOPT_URL => 'https://tes-web.landa.id/intermediate/transaksi?tahun=' . $tahun,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => '',
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 0,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => 'GET',
+    ));
+
+    $response = curl_exec($curl);
+    $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+    curl_close($curl);
+
+    $datatr = json_decode($response, true);
+    return view('tugas', ['trans' => $datatr,'datamakanan'=>$datamakanan]);
+
+    // if ($httpCode == 200) {
+    //     $datatr = json_decode($response, true);
+    //     return view('tugas', ['datatr' => $datatr]);
+    // } else {
+    //     abort($httpCode, 'Gagal mengambil data dari API.');
     // }
+}
 
-    //     public function transaksi2()
-    // {
-    //     $response = Http::get('https://tes-web.landa.id/intermediate/transaksi?tahun=2022');
-
-    //     if ($response->successful()) {
-    //         $data = $response->json();
-    //         return view('tugas', ['data' => $data]);
-    //     } else {
-    //         abort(500, 'Gagal mengambil data dari API.');
-    //     }
-    // }
-
-    // public function transaksi2(Request $request)
-    // {
-    //     $tahun = $request->input('tahun'); // Ambil tahun dari input permintaan
-
-    //     // Periksa apakah tahun yang dikirim sesuai dengan yang diizinkan (2021 atau 2022)
-    //     if ($tahun != '2021' && $tahun != '2022') {
-    //         abort(400, 'Tahun yang diminta tidak valid.');
-    //     }
-
-    //     $response = Http::get('https://tes-web.landa.id/intermediate/transaksi?tahun=' . $tahun);
-
-    //     if ($response->successful()) {
-    //         $data = $response->json();
-    //         return view('tugas', ['data' => $data]);
-    //     } else {
-    //         abort(500, 'Gagal mengambil data dari API.');
-    //     }
-    // }
 }

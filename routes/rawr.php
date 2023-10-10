@@ -36,7 +36,7 @@
                             </div>
                         </div>
                         <div class="col-4">
-                            <button type="button" class="btn btn-primary" onclick="showpage()">
+                            <button type="submit" class="btn btn-primary">
                                 Tampilkan
                             </button>
                             <a href="http://tes-web.landa.id/intermediate/menu" target="_blank" rel="Array Menu" class="btn btn-secondary">
@@ -49,9 +49,6 @@
                     </div>
                 </form>
                 <hr>
-                <?Php 
-                
-                ?>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered" style="margin: 0;">
                         <thead>
@@ -80,44 +77,20 @@
                             <tr>
                                 <td class="table-secondary" colspan="14"><b>Makanan</b></td>
                             </tr>
-                           
-                            @if(@$datamakanan)
-                                @foreach($datamakanan as $item)
-                                    @if($item->kategori=="makanan")
-                                        <tr>
-                                            <td>{{ $item->menu }}</td>
-                                            <?php $totalsub=0;?>
-                                            @if(@$trans)
-                                            
-                                            @foreach($trans as $tr)
-                                            
-                                                <?php 
-                                                $bln = explode("-",$tr['tanggal']);
-                                                
-                                                     if($item->menu==$tr['menu'] && $bln[1]=='01'){
-                                                        $totalsub+=$tr['total'];
-                                                        // echo '<td>';
-                                                        // echo $tr['total'];
-                                                        // echo '</td>';
-                                                        // break;
-                                                     }
-                                                    ?>
-                                           
-                                            @endforeach
 
-                                            @endif
-                                            <td><?=$totalsub?></td>
-                                        </tr>
-                                    @endif
-                                @endforeach
-                            @endif
-                            
+                        
+                            @foreach($datamakanan as $item)
+                                @if($item->kategori=="makanan")
+                                    <tr>
+                                        <td>{{ $item->menu }}</td>
+                                    </tr>
+                                @endif
+                            @endforeach
 
                                 
                                     <tr>
                                         <td class="table-secondary" colspan="14"><b>Minuman</b></td>
                                     </tr>
-                         @if(@$datamakanan)
                             @foreach($datamakanan as $item)
                                 @if($item->kategori=="minuman")
                                     <tr>
@@ -125,12 +98,9 @@
                                     </tr>
                                 @endif
                             @endforeach
-                        @endif
 
                                     
                                 </tbody>
-
-                                {{-- @dd($datamakanan) --}}
 
                            
 
@@ -151,17 +121,12 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
+
 
     
 </body>
 </html>
-<script>
-    function showpage(){
-        // console.log('l')
-        location.href="http://127.0.0.1:8000/tugastr/"+$("#my-select").val();
-    }
-    </script>
+
 
 
 

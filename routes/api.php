@@ -19,4 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/tugas', [TugasController::class, 'minuman']);
+// Route::get('/tugas', [TugasController::class, 'minuman']);

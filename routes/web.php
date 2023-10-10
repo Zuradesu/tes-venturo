@@ -32,10 +32,10 @@ Route::get('/home', [HomeController::class, 'index']);
 
 // Route::get('/tes', [HomeController::class, 'index']);
 
-Route::get('/tugas', [TugasController::class, 'menu']);
+// Route::get('/tugas', [TugasController::class, 'menu']);
 // Route::get('/tugas', [TugasController::class, 'minuman']);
 Route::get('/tugas', [TugasController::class, 'DataMakanan']);
-// Route::get('/tugas', [TugasController::class, 'transaksi1']);
-
+// Route::get('/tugasth/{tahun}', [TugasController::class, 'transaksi1']);
+Route::get('/tugastr/{tahun}', [TugasController::class, 'transaksi']);
 
 
